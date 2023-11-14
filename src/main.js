@@ -8,15 +8,12 @@ import http from './http'
 import VueMask from 'di-vue-mask'
 import moment from 'moment-timezone'
 import VueToastr from 'vue-toastr'
-import VueConfirmDialog from 'vue-confirm-dialog'
 import config from './http/config'
 import '@fortawesome/fontawesome-free/css/all.css'
 import '@fortawesome/fontawesome-free/js/all'
 import '@mdi/font/css/materialdesignicons.min.css'
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 
-Vue.use(VueConfirmDialog)
-Vue.component('vue-confirm-dialog', VueConfirmDialog.default)
 Vue.use(Vuelidate)
 Vue.prototype.moment = moment
 

@@ -1,9 +1,9 @@
 <template>
 
   <!--container para eventos-->
-  <v-container class="mt-3 pt-16" fill-height fluid>
+  <v-container class="mt-2" fill-height fluid>
     <v-row>
-      <v-col class="text-center"> <h1>SerResponsável ao longo dos anos</h1></v-col>
+      <v-col class="text-center"> <h1>SerResponsável ao longo dos anos!</h1></v-col>
     </v-row>
 
     <!--caso não haja itens-->
