@@ -1,15 +1,17 @@
 <template>
-  <v-app :style="estilosDiv" class="bgApp" id="inspire">
-    <vue-confirm-dialog></vue-confirm-dialog>
+  <v-app class="bgApp" id="inspire">
+    <BarraNavegacao/>
     <router-view/>
     <Footer/>
   </v-app>
 </template>
 
 <script>import Footer from './components/footer/Footer'
+import BarraNavegacao from './components/barra-navegacao/BarraNavegacao.vue'
 
 export default {
   components: {
+    BarraNavegacao,
     Footer
   },
   data () {
@@ -21,20 +23,6 @@ export default {
     this.getConfigs() // Chama getConfigs quando o componente é criado
   },
   computed: {
-    estilosDiv () {
-      if (this.totemConfigs.bg_img) {
-        return {
-          backgroundImage: `url(${this.$configSis.urlDownload}${this.totemConfigs.bg_img}) !important`,
-          backgroundRepeat: 'no-repeat !important',
-          backgroundSize: 'cover !important',
-          backgroundColor: `${this.totemConfigs.bg_color}`
-        }
-      } else {
-        return {
-          backgroundColor: `${this.totemConfigs.bg_color}`
-        }
-      }
-    }
   },
   methods: {
     getConfigs () {
@@ -53,8 +41,13 @@ export default {
 </script>
 
 <style>
-  .bgApp {
-    width: 100%;
-    height: 100%;
-  }
+.bgApp {
+  // width: 100%;
+  // height: 100%;
+  // background-image: url('assets/img/cammo.jpg') !important;
+  // background-repeat: no-repeat !important;
+  // background-size: cover !important;
+  background-color: #e5e1ff !important;
+}
+
 </style>

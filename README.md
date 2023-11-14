@@ -1,6 +1,6 @@
-# totem-cli
+# SerResponsavel-cli
 
-> Cliente para totem de informações em VUE.JS
+> Cliente para o projeto ser responsável em VUE.JS
 
 ## Build Setup
 

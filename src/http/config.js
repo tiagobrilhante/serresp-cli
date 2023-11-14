@@ -1,13 +1,11 @@
 const urlDownload = 'http://localhost:8000/'
-// const urlDownload = 'http://totemapi3.cma.eb.mil.br/'
-// const urlDownload = 'http://totemapi.12rm.eb.mil.br/'
+// const urlDownload = 'http://www.serresponsavel.com.br/'
 const baseURL = 'http://localhost:8000/api/'
-// const baseURL = 'http://totemapi3.cma.eb.mil.br/api/'
-// const baseURL = 'http://totemapi.12rm.eb.mil.br/api/'
-const nomeSis = 'XUXUTotem'
+// const baseURL = 'http://www.serresponsavel.com.br/api/'
+const nomeSis = 'SerResponsável'
 const versaoSis = '1.0'
-const labelSis = 'Sistema de Totens'
-const criador = 'TC Brilhante'
+const labelSis = 'Gerenciamento de Atividades'
+const criador = 'Alpha Team'
 // info geral
 const revisarForm = 'Revise os campos do formulário.'
 // info Basic Itens
