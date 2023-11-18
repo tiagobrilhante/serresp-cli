@@ -29,15 +29,15 @@
         <v-card-text>
 
           <ul>
-            <li class="mt-4">Versão 1.0 A r022 - 01/11/2023
+            <li class="mt-4">Versão 1.0 A r020 - 23/11/2023
               <ul>
-                <li>É disponibilizado ao público em 01 de novembro de 2023.</li>
+                <li>É disponibilizado ao público em 23 de novembro de 2023.</li>
               </ul>
             </li>
 
-            <li class="mt-4">Versão 1.0 A r001 (alpha) - 24/07/2023
+            <li class="mt-4">Versão 1.0 A r001 (alpha) - 24/09/2023
               <ul>
-                <li>É iniciado o processo de desenvolvimento do {{ configSis.labelSis }} em 24 de julho de 2023.</li>
+                <li>É iniciado o processo de desenvolvimento do {{ configSis.labelSis }} em 24 de setembro de 2023.</li>
                 <li>Utiliza Vue no front e Lumen no back.</li>
               </ul>
             </li>
@@ -75,22 +75,17 @@
         <v-card-text>
           <b></b>
           <br>
-          <p>TC Cav Tiago da Silva <strong>Brilhante</strong></p>
-          <p>O TC Brilhante é o chefe da Seção de Desenvolvimento de Sistemas da 12ª Região Militar</p>
-          <p>Atua como desenvolvedor sênior Full-Stack com especialização desenvolvimento WEB.</p>
-          <p>Trabalha com as seguintes linguagens:</p>
+          <p>Alpha Squad</p>
+          <p>O Alpha Squad é a equipe de desenvolvimento formada por alunos do 4º período de Ciências da Computação para a Atividade de Extensão 2, da Uninorte.</p>
+          <p>Ela é composta pelos seguintes membros:</p>
           <ul>
-            <li>Java</li>
-            <li>PHP</li>
-            <li>JS</li>
-            <li>Python</li>
+            <li>Tiago da Silva Brilhante (Desenvolvedor Chefe)</li>
+            <li>Arthur Iques de Oliveira Fernandes (Desenvolvedor)</li>
+            <li>Paulo Ricardo Damião Lima (Desenvolvedor)</li>
+            <li>Breno Victor Almeida de Oliveira Santos (Desenvolvedor)</li>
+            <li>Igor Rafael Reis Osório (Designer)</li>
           </ul>
           <br>
-
-          <hr>
-
-          <br>
-          <p>Contato: tiagobrilhantemania@gmail.com</p>
         </v-card-text>
 
         <v-card-actions class="pb-5">

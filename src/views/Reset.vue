@@ -14,8 +14,8 @@
             <v-row>
               <v-col cols="10" offset="1">
                 <div class="text-center pt-5">
-                  <h1>Bem-vindo ao sistema EBTotem!</h1>
-                  <p>Sistema Web de Totem</p>
+                  <h1>Bem-vindo ao sistema Ser Responsável!</h1>
+                  <p>Sistema Gerenciamento de Atividades de Responsabilidade Social</p>
                   <p>Você precisa alterar a senha para efetuar o primeiro acesso</p>
                 </div>
               </v-col>

@@ -4,8 +4,9 @@ import Home from '../views/Home.vue'
 import Index from '../views/Index.vue'
 import erro500 from '../views/errors/erro500.vue'
 import erroToken from '../views/errors/erroToken.vue'
+import Eventos from '../components/index/Eventos.vue'
+import Assuntos from '../components/index/Assuntos.vue'
 // import Reset from '../views/Reset.vue'
-import Login from '../views/Login.vue'
 import store from '@/store'
 
 Vue.use(VueRouter)
@@ -17,6 +18,22 @@ const routes = [
     component: Home,
     meta: {
       logado: true
+    }
+  },
+  {
+    path: '/eventos',
+    name: 'eventos',
+    component: Eventos,
+    meta: {
+      publica: true
+    }
+  },
+  {
+    path: '/assuntos',
+    name: 'assuntos',
+    component: Assuntos,
+    meta: {
+      publica: true
     }
   },
   {
@@ -55,14 +72,6 @@ const routes = [
     },
     // component: Reset
     component: () => import(/* webpackChunkName: "Reset" */ '../views/Reset.vue')
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: Login,
-    meta: {
-      publica: true
-    }
   }
 ]
 const router = new VueRouter({

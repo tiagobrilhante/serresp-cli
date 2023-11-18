@@ -100,8 +100,7 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: '"production"',
-        API_URL: '"http://totemapi3.cma.eb.mil.br/api"' // aqui é pra colocar o endereço da API externa em produção
-       //  API_URL: '"http://totemapi.12rm.eb.mil.br/api"' // aqui é pra colocar o endereço da API externa em produção
+        API_URL: '"http://serresponsavel.com.br/api"' // aqui é pra colocar o endereço da API externa em produção
       }
     }),
     new webpack.optimize.UglifyJsPlugin({

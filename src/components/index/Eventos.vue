@@ -1,9 +1,9 @@
 <template>
 
   <!--container para eventos-->
-  <v-container class="mt-2" fill-height fluid>
+  <v-container class="mt-2 rounded-xl" fill-height fluid>
     <v-row>
-      <v-col class="text-center"> <h1>SerResponsável ao longo dos anos!</h1></v-col>
+      <v-col class="text-center"><h1>SerResponsável ao longo dos anos!</h1></v-col>
     </v-row>
 
     <!--caso não haja itens-->
@@ -16,104 +16,94 @@
     </v-row>
 
     <!--caso tenha itens-->
-    <v-row v-else class="mt-16">
+    <v-row v-else class="mt-1">
+      <v-col>
 
-      <!--espaçador + btn voltar-->
-      <v-col align-self="center" class="text-center" cols="1">
-        <v-btn color="#eb9234" @click="changeEventPage(pagAtualEvento - 1)" v-if="pagAtualEvento > 1">Voltar</v-btn>
-      </v-col>
+        <v-card outlined class="pt-5 pb-10" elevation="12">
+          <v-row>
+            <!--espaçador + btn voltar-->
+            <v-col align-self="center" class="text-center" cols="1">
+              <v-btn rounded color="secondary" @click="changeEventPage(pagAtualEvento - 1)" :disabled="!(pagAtualEvento > 1)">
+                <v-icon>mdi-arrow-left</v-icon>
+              </v-btn>
+            </v-col>
 
-      <v-col align-self="center">
+            <v-col align-self="center">
 
-        <!--linha 1 de eventos-->
-        <v-row class="mb-10">
+              <!--linha 1 de eventos-->
+              <v-row class="mb-5">
 
-          <v-col :key="le1.id" align-self="center" cols="3" v-for="le1 in linha1eventos">
+                <v-col :key="le1.id" align-self="center" cols="3" v-for="le1 in linha1eventos">
 
-            <v-card :hover="clicable"
-                    @click="openAnoEventoLista(le1)"
-                    color="#7ca387"
-                    class="ml-3 mr-3 align-content-center"
-                    elevation="21"
-                    rounded="xl">
-              <br>
+                  <v-card :hover="clicable"
+                          @click="openAnoEventoLista(le1)"
+                          color="#FFFFFF"
+                          class="ml-3 mr-3 align-content-center"
+                          elevation="21"
+                          rounded="xl">
+                    <br>
 
-              <v-img :height=configBasica.altura_index :src="configSis.urlDownload + le1.imagem"
-                     :width=configBasica.largura_index
-                     class="rounded-xl text-center ml-auto mr-auto"/>
+                    <v-img :height=configBasica.altura_index :src="configSis.urlDownload + le1.imagem"
+                           :width=configBasica.largura_index
+                           class="rounded-xl text-center ml-auto mr-auto"/>
 
+                    <v-row>
+
+                      <v-col class="text-center">
+
+                        <h2>{{ le1.ano }}</h2>
+                      </v-col>
+                    </v-row>
+                  </v-card>
+
+                </v-col>
+
+              </v-row>
+
+              <!--linha 2 de eventos-->
               <v-row>
+                <v-col :key="le2.id" align-self="center" cols="3" v-for="le2 in linha2eventos" v-if="le2 !== undefined">
 
-                <v-col class="text-center">
+                  <v-card :hover="clicable"
+                          @click="openAnoEventoLista(le2)"
+                          class="ml-3 mr-3"
+                          color="#FFFFFF"
+                          elevation="21"
+                          rounded="xl">
 
-                  <h2>{{ le1.ano }}</h2>
+                    <br>
+
+                    <v-img :height=configBasica.altura_index :src="configSis.urlDownload + le2.imagem"
+                           :width=configBasica.largura_index
+                           class="rounded-xl text-center ml-auto mr-auto"/>
+
+                    <v-row>
+
+                      <v-col class="text-center">
+                        <h2>{{ le2.ano }}</h2>
+                      </v-col>
+                    </v-row>
+                  </v-card>
+
                 </v-col>
               </v-row>
-              <hr>
-              <v-card color="#7ca387" class="mt-2" elevation="21">
-                <v-row>
-                  <v-col>
-                    <ul>
-                      <li :key="ev.id" v-for="ev in le1.eventos"><strong>{{ ev.nome }}</strong></li>
-                    </ul>
-                  </v-col>
-                </v-row>
-              </v-card>
-            </v-card>
 
-          </v-col>
-        </v-row>
+            </v-col>
 
-        <!--linha 2 de eventos-->
-        <v-row>
-          <v-col :key="le2.id" align-self="center" cols="3" v-for="le2 in linha2eventos" v-if="le2 !== undefined">
-
-            <v-card :hover="clicable"
-                    @click="openAnoEventoLista(le2)"
-                    class="ml-3 mr-3"
-                    color="#7ca387"
-                    elevation="21"
-                    rounded="xl">
-
-              <br>
-
-              <v-img :height=configBasica.altura_index :src="configSis.urlDownload + le2.imagem"
-                     :width=configBasica.largura_index
-                     class="rounded-xl text-center ml-auto mr-auto"/>
-
-              <v-row>
-
-                <v-col class="text-center">
-                  <h2>{{ le2.ano }}</h2>
-                </v-col>
-              </v-row>
-              <hr>
-              <v-card color="#7ca387" class="mt-2" elevation="21">
-                <v-row>
-                  <v-col>
-                    <ul>
-                      <li :key="ev2.id" v-for="ev2 in le2.eventos"><strong>{{ ev2.nome }}</strong></li>
-                    </ul>
-                  </v-col>
-                </v-row>
-              </v-card>
-            </v-card>
-
-          </v-col>
-        </v-row>
-
+            <!--espaçador + btn avançar-->
+            <v-col align-self="center" class="text-center" cols="1">
+              <v-btn rounded color="secondary" @click="changeEventPage(pagAtualEvento + 1)" :disabled="!temProxPag">
+                <v-icon>mdi-arrow-right</v-icon>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-card>
       </v-col>
-
-      <!--espaçador + btn avançar-->
-      <v-col align-self="center" class="text-center" cols="1">
-        <v-btn color="#eb9234" @click="changeEventPage(pagAtualEvento + 1)" v-if="temProxPag">Avançar</v-btn>
-      </v-col>
-
     </v-row>
 
     <!--Dialog para navegar pelo evento-->
     <v-dialog max-width="90%" v-model="dialogNavegaAno" scrollable>
-      <v-card @contextmenu.prevent="disableRightClick" color="#7ca387">
+      <v-card @contextmenu.prevent="disableRightClick" color="#a8b7f0">
         <v-card-title class="justify-center" primary-title>
           <v-row>
             <v-col cols="1"></v-col>
@@ -280,20 +270,29 @@ export default {
       objPcpEventoParaImagemAdicional: {},
       essaEImgEventoPcp: true,
       explicacaoImgAddEvevntox: '',
-      soTemUmaImagem: true
+      soTemUmaImagem: true,
+      configBasica: {}
     }
-  },
-  props: {
-    configBasica: Object
   },
 
   computed: {},
 
   async mounted () {
-    console.log('montei')
+    await this.getConfigs()
     await this.getEventos()
   },
   methods: {
+    async getConfigs () {
+      try {
+        this.$http.get('totemconfig')
+          .then(response => {
+            this.configBasica = Object.assign({}, response.data)
+          })
+          .catch(erro => console.log(erro))
+      } catch (e) {
+        console.log(e)
+      }
+    },
 
     async getEventos () {
       this.linha1eventos = []
