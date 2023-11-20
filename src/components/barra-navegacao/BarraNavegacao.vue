@@ -1,6 +1,8 @@
 <template>
 
   <v-app-bar
+    absolute
+    elevate-on-scroll
     color="rgb(37, 150, 190, 0.5)"
   >
 
@@ -13,6 +15,7 @@
     <v-menu
       left
       bottom
+      v-if="!usuarioLogado"
     >
       <template v-slot:activator="{ on, attrs }">
         <v-btn
@@ -26,7 +29,7 @@
       </template>
     </v-menu>
 
-    <BarraNavegacaoUsuarioLogado v-if="usuarioEstaLogado"/>
+    <BarraNavegacaoUsuarioLogado v-if="usuarioLogado"/>
 
     <!--Dialog para fazer login-->
     <v-dialog max-width="50%" v-model="dialogLogin" scrollable>

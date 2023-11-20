@@ -1,6 +1,5 @@
 <template>
 
-
   <!--form para login-->
   <v-form @submit.prevent="efetuarLogin">
     <v-container fluid>

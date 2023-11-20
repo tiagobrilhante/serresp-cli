@@ -6,6 +6,8 @@ import erro500 from '../views/errors/erro500.vue'
 import erroToken from '../views/errors/erroToken.vue'
 import Eventos from '../components/index/Eventos.vue'
 import Assuntos from '../components/index/Assuntos.vue'
+import AdmUsers from '../components/areaAdministrativa/admUsuarios/AdmUsuarios.vue'
+import Configs from '../components/areaAdministrativa/configuracoes/Configuracoes.vue'
 // import Reset from '../views/Reset.vue'
 import store from '@/store'
 
@@ -56,6 +58,22 @@ const routes = [
     path: '/erroToken',
     name: 'erroToken',
     component: erroToken,
+    meta: {
+      logado: true
+    }
+  },
+  {
+    path: '/admusers',
+    name: 'admUsers',
+    component: AdmUsers,
+    meta: {
+      logado: true
+    }
+  },
+  {
+    path: '/configs',
+    name: 'configs',
+    component: Configs,
     meta: {
       logado: true
     }

@@ -21,7 +21,9 @@
 
       <!--espaçador com botão voltar-->
       <v-col align-self="center" class="text-center" cols="1">
-        <v-btn rounded elevation="21" color="secondary" @click="ajustaPagVoltar" :disabled="!(assuntos.current_page > 1)"><v-icon>mdi-arrow-left</v-icon>
+        <v-btn rounded elevation="21" color="secondary" @click="ajustaPagVoltar"
+               :disabled="!(assuntos.current_page > 1)">
+          <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
       </v-col>
 
@@ -91,7 +93,8 @@
       <!--espaçador com botão avançar-->
       <v-col align-self="center" class="text-center" cols="1">
         <v-btn elevation="21" rounded color="secondary" @click="ajustaPagAvanca"
-               :disabled="assuntos.current_page === assuntos.last_page"><v-icon>mdi-arrow-right</v-icon>
+               :disabled="assuntos.current_page === assuntos.last_page">
+          <v-icon>mdi-arrow-right</v-icon>
         </v-btn>
       </v-col>
 
@@ -346,12 +349,10 @@ export default {
     },
 
     ajustaPagVoltar () {
-
-        if (this.assuntos.current_page >= this.assuntos.last_page) {
-          this.assuntos.current_page--
-          this.onPageChange()
-        }
-
+      if (this.assuntos.current_page >= this.assuntos.last_page) {
+        this.assuntos.current_page--
+        this.onPageChange()
+      }
     },
 
     ajustaPagAvanca () {
@@ -396,4 +397,3 @@ export default {
 }
 
 </style>
-

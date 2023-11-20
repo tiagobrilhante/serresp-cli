@@ -1,7 +1,7 @@
 <template>
   <v-app class="bgwhite" id="inspire">
     <BarraNavegacao/>
-    <v-row class="mb-5">
+    <v-row class="mb-5 mt-15">
       <v-col cols="2">
         <MenuLeft/>
       </v-col>
@@ -14,7 +14,8 @@
             </v-col>
           </v-row>
         </v-container>
-        <v-container fluid>
+
+        <v-container fluid v-if="!usuarioLogado">
           <v-row class="mr-1 ml-1">
             <v-col>
               <v-card elevation="12">
@@ -64,6 +65,7 @@
 <script>import Footer from './components/footer/Footer'
 import BarraNavegacao from './components/barra-navegacao/BarraNavegacao.vue'
 import MenuLeft from './components/menu-left/Menu.vue'
+import {mapGetters} from 'vuex'
 
 export default {
   components: {
@@ -79,7 +81,9 @@ export default {
   created () {
     this.getConfigs() // Chama getConfigs quando o componente é criado
   },
-  computed: {},
+  computed: {
+    ...mapGetters(['usuarioResetado', 'usuarioLogado'])
+  },
   methods: {
     getConfigs () {
       try {

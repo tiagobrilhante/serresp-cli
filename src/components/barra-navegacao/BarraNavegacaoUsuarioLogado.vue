@@ -30,7 +30,7 @@
                v-bind="attrs"
                v-on="on"
         >
-          <i class="fa fa-user mr-5"></i> {{ usuarioLogado.apelido }}
+          <i class="fa fa-user mr-5"></i> {{ usuarioLogado.nome }}
         </v-btn>
       </template>
       <!--list-->

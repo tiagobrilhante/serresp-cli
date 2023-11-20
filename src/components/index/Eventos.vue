@@ -38,14 +38,18 @@
                   <v-card :hover="clicable"
                           @click="openAnoEventoLista(le1)"
                           color="#FFFFFF"
-                          class="ml-3 mr-3 align-content-center"
+                          class="ml-3 mr-3 pl-2 pr-2 align-content-center"
                           elevation="21"
-                          rounded="xl">
+                          rounded="xl"
+                  >
                     <br>
 
-                    <v-img :height=configBasica.altura_index :src="configSis.urlDownload + le1.imagem"
-                           :width=configBasica.largura_index
-                           class="rounded-xl text-center ml-auto mr-auto"/>
+                    <v-img
+                      :height=configBasica.altura_index
+                      :max-height=configBasica.altura_index
+                      :max-width=configBasica.largura_index
+                           :src="configSis.urlDownload + le1.imagem"
+                           class="v-responsive rounded-xl text-center ml-auto mr-auto pl-3 pr-3"/>
 
                     <v-row>
 
@@ -66,15 +70,18 @@
 
                   <v-card :hover="clicable"
                           @click="openAnoEventoLista(le2)"
-                          class="ml-3 mr-3"
+                          class="ml-3 mr-3 pl-2 pr-2 align-content-center"
                           color="#FFFFFF"
                           elevation="21"
                           rounded="xl">
 
                     <br>
 
-                    <v-img :height=configBasica.altura_index :src="configSis.urlDownload + le2.imagem"
-                           :width=configBasica.largura_index
+                    <v-img
+                      :height=configBasica.altura_index
+                      :max-height=configBasica.altura_index
+                      :max-width=configBasica.largura_index
+                           :src="configSis.urlDownload + le2.imagem"
                            class="rounded-xl text-center ml-auto mr-auto"/>
 
                     <v-row>

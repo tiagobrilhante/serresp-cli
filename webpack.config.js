@@ -49,9 +49,21 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        loader: 'babel-loader',
         exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+        },
         include: [/vue2-datatable-component/]
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'eslint-loader',
+          options: {
+            // Additional ESLint options
+          },
+        },
       },
       {
         test: /\.(png|jpg|gif|svg)$/,

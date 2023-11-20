@@ -6,11 +6,17 @@
       />
       <h2>Menu</h2>
       <v-divider class="mb-4"></v-divider>
-      <v-btn to="/" color="secondary" block max-width="100%"> Página Incial </v-btn>
-      <v-btn to="/home" class="mt-3" color="secondary" block  max-width="100%"> O que é o SerResponsável</v-btn>
+      <v-btn to="/" color="secondary" block max-width="100%"> Página Incial</v-btn>
+      <v-btn class="mt-3" color="secondary" block max-width="100%"> O que é SerResponsável</v-btn>
       <v-btn to="/assuntos" class="mt-3" color="secondary" block max-width="100%"> Atividades Recentes</v-btn>
       <v-btn to="/eventos" class="mt-3" color="secondary" block max-width="100%"> Ao longo dos anos</v-btn>
       <v-btn class="mt-3" color="secondary" block max-width="100%"> Benefícios do Projeto</v-btn>
+
+      <br>
+      <hr>
+      <v-btn to="/home" class="mt-3" color="secondary" block max-width="100%"> Página Inicial</v-btn>
+      <v-btn to="/configs" class="mt-3" color="secondary" block max-width="100%"> Configurações</v-btn>
+      <v-btn to="/admusers" class="mt-3" color="secondary" block max-width="100%"> Adm Usuários</v-btn>
 
     </v-col>
   </v-row>
