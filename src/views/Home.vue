@@ -1,538 +1,341 @@
 <template>
-  <v-main class="bgConfig">
+  <v-main>
+    <v-card>
 
-    <!--espaço administrativo-->
-    <v-container fluid>
+      <v-card-text class="pb-0 mt-0">
+        <!--adição de datas históricas-->
+        <v-container fluid>
+          <v-alert color="rgb(255,255,255,0.5)" v-if="mostraCadastroEventos">
+            <h3>Cadastro de eventos históricos</h3>
+            <br>
 
-      <v-row>
+            <v-form @submit.prevent="saveEvento">
 
-        <!--configurações do Totem e Configurações de conteúdo-->
-        <v-col>
-          <!--Configurações de conteúdo-->
-          <v-alert color="rgb(255,255,255,0.4)">
+              <!--data e título do evento-->
+              <v-row>
 
-            <!--Cabeçalho, btn add evento SFC-->
-            <v-row class="mb-3">
-
-              <!--Cabeçalho-->
-              <v-col align-self="center">
-                <h3>Configurações de Conteúdo ( <span v-if="totemConfigs.tipo_totem === 'normal'"> Totem Normal </span>
-                  <span v-else> Eventos </span> )</h3>
-              </v-col>
-
-              <!--add evento-->
-              <v-col align-self="center" class="text-right">
-                <v-btn @click="abreCadastroNewEvento"
-                       v-if="totemConfigs.tipo_totem !== 'normal' && !mostraCadastroEventos">Adicionar Evento
-                </v-btn>
-              </v-col>
-
-            </v-row>
-
-            <v-divider></v-divider>
-
-            <!--Administração assuntos, e de imagens e textos e inserir nova imagem-->
-            <v-container fluid v-if="totemConfigs.tipo_totem === 'normal'">
-
-              <!-- Area de seleção de assuntos/imagens-->
-              <v-row class="mt-1">
-
-                <!--Seleção de assuntos e adm de assuntos-->
+                <!--data do evento-->
                 <v-col>
+                  <span class="pl-3">Insira a data do evento</span>
 
-                  <span class="ml-0 textoBranco">Selecione o assunto</span>
-
-                  <!--select de assuntos e btn Adm Assuntos-->
+                  <!--dia mes e ano-->
                   <v-row>
 
-                    <!--select de assuntos-->
-                    <v-col cols="10">
+                    <!--dia-->
+                    <v-col>
+                      <span class="pl-3">Dia</span>
+
                       <v-autocomplete
-                        :items="assuntoSelect"
-                        @change="getAtualAssunto"
+                        :items="optionsDia"
+                        class="ml-3"
                         clearable
                         dense
-                        item-text="nome_assunto"
-                        item-value="id"
-                        label="Selecione o Assunto"
-                        name="nome_assunto"
-                        return-object
+                        hint="Insira o dia do evento (de 1 a 31) caso deixe em branco o evento não se restringe a um dia"
+                        label="Dia"
+                        persistent-hint
                         rounded
                         solo
-                        v-model="myAssunto"
+                        v-model="diaNewEvento"
                       ></v-autocomplete>
                     </v-col>
 
-                    <!--btn Administracão assuntos-->
+                    <!--mes-->
                     <v-col>
-                      <template>
-                        <v-tooltip top>
-                          <template v-slot:activator="{ on, attrs }">
-                            <v-btn @click="openDialogAdmAssunto" block rounded v-bind="attrs"
-                                   v-on="on">
-                              <v-icon>mdi-pencil-box-outline</v-icon>
-                            </v-btn>
+                      <span class="pl-3">Mês</span>
 
-                          </template>
-                          <span>Administração de Assuntos</span>
-                        </v-tooltip>
-                      </template>
+                      <v-autocomplete
+                        :items="optionsMes"
+                        class="ml-3"
+                        clearable
+                        dense
+                        hint="Insira o mês do evento (de 1 a 12) caso deixe em branco o evento não se restringe a um mês"
+                        label="Mês"
+                        persistent-hint
+                        rounded
+                        solo
+                        v-model="mesNewEvento"
+                      ></v-autocomplete>
                     </v-col>
 
-                  </v-row>
-
-                </v-col>
-
-                <!--Separacao-->
-                <v-col></v-col>
-
-              </v-row>
-
-              <!--Area de visualização de imagem-->
-              <v-row v-if="myAssunto !== null && myAssunto !== undefined && myAssunto !== ''">
-
-                <!--Ajustes de imagens-->
-                <v-col align-self="center" cols="6"><span class="ml-0 textoBranco">Imagem</span>
-
-                  <!--Alert de Imagem-->
-                  <v-alert color="white" rounded="xl">
-
-                    <v-img :src="this.$configSis.urlDownload + imagemAtual.imagem"
-                           class="rounded-xl" v-if="qtdImg !== 0" aspect-ratio="1.5"/>
-
-                    <v-img :src="require('../assets/img/noimage.png')"
-                           v-else class="rounded-xl" aspect-ratio="1.5"/>
-
-                    <!-- paginação, exclusão e edição de imagem-->
-                    <v-row class="mt-2">
-
-                      <!--Pagination-->
-                      <v-col class="text-left">
-                        <v-btn :key="objImg.id" @click="recebeImagemSolicitada(objImg.ordem)" class="primary mr-1"
-                               retain-focus-on-click rounded small v-for="objImg in arrayImages" v-if="qtdImg !== 0">
-                          {{ objImg.ordem }}
-                        </v-btn>
-                      </v-col>
-
-                      <!--Delete, ADD and Edit IMAGES-->
-                      <v-col cols="4">
-
-                        <!--Delete, add and Edit IMAGES-->
-                        <v-row no-gutters>
-
-                          <!--add-->
-                          <v-col class="text-right mr-1">
-                            <v-btn @click="openDialogAddImg" block class="primary" small>
-                              <v-icon small>mdi-plus</v-icon>
-                            </v-btn>
-                          </v-col>
-
-                          <!--edit-->
-                          <v-col class="text-right mr-1" v-if="qtdImg !== 0">
-                            <v-btn @click="openDialogEditImg" block class="warning" small>
-                              <v-icon small>mdi-pen</v-icon>
-                            </v-btn>
-                          </v-col>
-
-                          <!--delete-->
-                          <v-col class="text-right" v-if="qtdImg !== 0">
-                            <v-btn @click="openDialogDeletaImagem()" block class="error" small>
-                              <v-icon small>mdi-delete</v-icon>
-                            </v-btn>
-                          </v-col>
-
-                        </v-row>
-
-                      </v-col>
-
-                    </v-row>
-
-                  </v-alert>
-
-                </v-col>
-
-                <!--exibição de Legendas e saiba mais-->
-                <v-col cols="6">
-                  <span class="ml-0 textoBranco" v-if="qtdImg !== 0">Título e Legenda da Imagem</span>
-                  <v-alert align="center" class="mb-0 pb-0" color="white" dense rounded="xl" v-if="qtdImg !== 0">
-                    <h3>{{ imagemAtual.nome }} <span v-if="imagemAtual.banner"> ( Banner )</span></h3>
-                    <h4>Ordem de Exibição: {{ imagemAtual.ordem }}</h4>
-
-                    <!--Legenda e saiba mais-->
-                    <v-row>
-                      <v-col>
-                        <!--legenda -->
-                        <v-textarea
-                          auto-grow
-                          class="mb-0 pb-0 mt-3"
-                          label="Legenda da Imagem"
-                          no-resize
-                          readonly
-                          rounded
-                          rows="5"
-                          v-if="imagemAtual.legenda"
-                          v-model="imagemAtual.legenda"
-                        ></v-textarea>
-                        <span v-else> Sem Legenda</span>
-
-                        <!--saiba mais-->
-                        <v-textarea
-                          auto-grow
-                          class="mb-10 pb-0"
-                          label="Saiba Mais"
-                          no-resize
-                          readonly
-                          rounded
-                          rows="5"
-                          v-if="imagemAtual.saibamais"
-                          v-model="imagemAtual.saibamais"
-                        ></v-textarea>
-                        <v-row v-else class="mb-10">
-                          <v-col>
-                            <span> Sem Saiba Mais</span>
-                          </v-col>
-                        </v-row>
-
-                      </v-col>
-                    </v-row>
-
-                  </v-alert>
-                </v-col>
-
-              </v-row>
-
-            </v-container>
-
-            <!--adição de datas históricas-->
-            <v-container fluid>
-              <v-alert color="rgb(255,255,255,0.5)" v-if="mostraCadastroEventos">
-                <h3>Cadastro de eventos históricos</h3>
-                <br>
-
-                <v-form @submit.prevent="saveEvento">
-
-                  <!--data e título do evento-->
-                  <v-row>
-
-                    <!--data do evento-->
+                    <!--ano-->
                     <v-col>
-                      <span class="pl-3">Insira a data do evento</span>
-
-                      <!--dia mes e ano-->
-                      <v-row>
-
-                        <!--dia-->
-                        <v-col>
-                          <span class="pl-3">Dia</span>
-
-                          <v-autocomplete
-                            :items="optionsDia"
-                            class="ml-3"
-                            clearable
-                            dense
-                            hint="Insira o dia do evento (de 1 a 31) caso deixe em branco o evento não se restringe a um dia"
-                            label="Dia"
-                            persistent-hint
-                            rounded
-                            solo
-                            v-model="diaNewEvento"
-                          ></v-autocomplete>
-                        </v-col>
-
-                        <!--mes-->
-                        <v-col>
-                          <span class="pl-3">Mês</span>
-
-                          <v-autocomplete
-                            :items="optionsMes"
-                            class="ml-3"
-                            clearable
-                            dense
-                            hint="Insira o mês do evento (de 1 a 12) caso deixe em branco o evento não se restringe a um mês"
-                            label="Mês"
-                            persistent-hint
-                            rounded
-                            solo
-                            v-model="mesNewEvento"
-                          ></v-autocomplete>
-                        </v-col>
-
-                        <!--ano-->
-                        <v-col>
-                          <span class="pl-3">Ano</span>
-                          <v-text-field
-                            :maxlength="4"
-                            @input="limitInput('add')"
-                            class="ml-3"
-                            dense
-                            hint="Insira o ano do evento ( 4 dígitos ) * obrigatório"
-                            label="Ano"
-                            max="9999"
-                            min="1"
-                            persistent-hint
-                            rounded
-                            solo
-                            type="text"
-                            v-model="anoNewEvento"
-                          ></v-text-field>
-                        </v-col>
-
-                      </v-row>
-
-                    </v-col>
-
-                    <!--titulo evento-->
-                    <v-col>
-                      <span class="pl-3">Título do evento</span>
-
+                      <span class="pl-3">Ano</span>
                       <v-text-field
+                        :maxlength="4"
+                        @input="limitInput('add')"
                         class="ml-3"
                         dense
-                        hint="Exemplo: Batalha dos Guararapes"
-                        label="Título do Evento"
+                        hint="Insira o ano do evento ( 4 dígitos ) * obrigatório"
+                        label="Ano"
+                        max="9999"
+                        min="1"
                         persistent-hint
                         rounded
                         solo
-                        v-model="tituloNewEvento"
+                        type="text"
+                        v-model="anoNewEvento"
                       ></v-text-field>
-
                     </v-col>
 
                   </v-row>
 
-                  <!--legenda e imagem-->
-                  <v-row>
+                </v-col>
 
-                    <!--legenda-->
-                    <v-col>
+                <!--titulo evento-->
+                <v-col>
+                  <span class="pl-3">Título do evento</span>
 
-                      <v-textarea
-                        auto-grow
-                        class="mb-0 pb-0 mt-3"
-                        hint="Se deixado em branco, a não será mostrado nenhum texto como legenda."
-                        label="Legenda do Evento"
-                        no-resize
-                        persistent-hint
-                        rounded
-                        rows="5"
-                        solo
-                        v-model="legendaNewEvento"
-                      ></v-textarea>
+                  <v-text-field
+                    class="ml-3"
+                    dense
+                    hint="Exemplo: Batalha dos Guararapes"
+                    label="Título do Evento"
+                    persistent-hint
+                    rounded
+                    solo
+                    v-model="tituloNewEvento"
+                  ></v-text-field>
 
-                      <v-alert color="warning">
-                        <p>Você pode cadastrar imagens adicionais para um evento, no entanto, é necessário que o evento
-                          seja criado primeiro, em seguida acesse a opção de editar evento para realizar a adição de
-                          outras imagens. (na tabela de eventos cadastrados)</p>
-                        <p>A imagem principal, é aquela que aparecerá no card de abertura do evento.</p>
+                </v-col>
 
-                      </v-alert>
-                    </v-col>
+              </v-row>
 
-                    <!--imagem-->
-                    <v-col>
+              <!--legenda e imagem-->
+              <v-row>
 
-                      <span class="ml-3">Imagem</span>
-                      <v-file-input @change="selectImageEvento"
-                                    accept="image/*"
-                                    dense
-                                    hint="Escolha uma imagem no formato .png ou .jpg"
-                                    label="Escolha uma imagem (SFC)"
-                                    persistent-hint
-                                    placeholder="Insira uma imagem se for o caso"
-                                    rounded
-                                    show-size
-                                    solo
-                                    v-model="inputImagemEvento"
-                      ></v-file-input>
+                <!--legenda-->
+                <v-col>
 
-                      <!--preview-->
-                      <v-alert elevation="10" rounded="xl" v-if="previewImageEvento">
-                        <h3>Preview:</h3>
-                        <img :src="previewImageEvento" alt="" class="v-responsive ml-auto mr-auto my-3 rounded-xl"/>
+                  <v-textarea
+                    auto-grow
+                    class="mb-0 pb-0 mt-3"
+                    hint="Se deixado em branco, a não será mostrado nenhum texto como legenda."
+                    label="Legenda do Evento"
+                    no-resize
+                    persistent-hint
+                    rounded
+                    rows="5"
+                    solo
+                    v-model="legendaNewEvento"
+                  ></v-textarea>
 
-                        <span class="pl-3">Fonte da imagem</span>
+                  <v-alert color="warning">
+                    <p>Você pode cadastrar imagens adicionais para um evento, no entanto, é necessário que o evento
+                      seja criado primeiro, em seguida acesse a opção de editar evento para realizar a adição de
+                      outras imagens. (na tabela de eventos cadastrados)</p>
+                    <p>A imagem principal, é aquela que aparecerá no card de abertura do evento.</p>
 
-                        <v-text-field
-                          class="ml-3"
-                          dense
-                          hint="Exemplo: https://eb.mil.br/artigo233"
-                          label="Fonte da imagem"
-                          persistent-hint
-                          rounded
-                          solo
-                          v-model="fonteImagemPcpNewEvento"
-                        ></v-text-field>
+                  </v-alert>
+                </v-col>
 
-                      </v-alert>
+                <!--imagem-->
+                <v-col>
 
-                    </v-col>
-                  </v-row>
+                  <span class="ml-3">Imagem</span>
+                  <v-file-input @change="selectImageEvento"
+                                accept="image/*"
+                                dense
+                                hint="Escolha uma imagem no formato .png ou .jpg"
+                                label="Escolha uma imagem (SFC)"
+                                persistent-hint
+                                placeholder="Insira uma imagem se for o caso"
+                                rounded
+                                show-size
+                                solo
+                                v-model="inputImagemEvento"
+                  ></v-file-input>
 
-                  <v-row>
-                    <v-col>
-                      <v-card class="rounded-xxl">
-                        <vue-editor class="rounded-xxl" v-model="content"></vue-editor>
-                      </v-card>
-                    </v-col>
-                  </v-row>
+                  <!--preview-->
+                  <v-alert elevation="10" rounded="xl" v-if="previewImageEvento">
+                    <h3>Preview:</h3>
+                    <img :src="previewImageEvento" alt="" class="v-responsive ml-auto mr-auto my-3 rounded-xl"/>
 
-                  <!--saiba mais-->
-                  <v-row>
-                    <v-col>
-                      <v-textarea
-                        auto-grow
-                        class="mb-0 pb-0 mt-3"
-                        hint="Se deixado em branco, a não será mostrado nenhum texto como saiba mais."
-                        label="Saiba Mais"
-                        no-resize
-                        persistent-hint
-                        rounded
-                        rows="5"
-                        solo
-                        v-model="saibaMaisNewEvento"
-                      ></v-textarea>
-                    </v-col>
-                  </v-row>
+                    <span class="pl-3">Fonte da imagem</span>
 
-                  <!--btn action salvar cancelar-->
-                  <v-row>
-                    <v-col class="text-right">
+                    <v-text-field
+                      class="ml-3"
+                      dense
+                      hint="Exemplo: https://eb.mil.br/artigo233"
+                      label="Fonte da imagem"
+                      persistent-hint
+                      rounded
+                      solo
+                      v-model="fonteImagemPcpNewEvento"
+                    ></v-text-field>
 
-                      <!--cancelar-->
-                      <v-btn @click="cancelaCadastroNewEvento" class="mr-5 warning">Cancelar</v-btn>
+                  </v-alert>
 
-                      <!--salvar-->
-                      <v-btn class="success" type="submit">Salvar</v-btn>
+                </v-col>
+              </v-row>
 
-                    </v-col>
+              <v-row>
+                <v-col>
+                  <v-card class="rounded-xxl">
+                    <vue-editor class="rounded-xxl" v-model="content"></vue-editor>
+                  </v-card>
+                </v-col>
+              </v-row>
 
-                  </v-row>
+              <!--saiba mais-->
+              <v-row>
+                <v-col>
+                  <v-textarea
+                    auto-grow
+                    class="mb-0 pb-0 mt-3"
+                    hint="Se deixado em branco, a não será mostrado nenhum texto como saiba mais."
+                    label="Saiba Mais"
+                    no-resize
+                    persistent-hint
+                    rounded
+                    rows="5"
+                    solo
+                    v-model="saibaMaisNewEvento"
+                  ></v-textarea>
+                </v-col>
+              </v-row>
 
-                </v-form>
+              <!--btn action salvar cancelar-->
+              <v-row>
+                <v-col class="text-right">
 
-              </v-alert>
+                  <!--cancelar-->
+                  <v-btn @click="cancelaCadastroNewEvento" class="mr-5 warning">Cancelar</v-btn>
 
-              <!-- Eventos cadastrados-->
-              <v-alert color="rgb(255,255,255,0.5)"
-                       v-if="mostraTabelaCadastrados &&totemConfigs.tipo_totem !== 'normal' ">
-                <h3>Eventos Cadastrados</h3>
+                  <!--salvar-->
+                  <v-btn class="success" type="submit">Salvar</v-btn>
 
-                <!--DataTable-->
-                <v-data-table
-                  :headers="headersEventos"
-                  :items="eventos"
-                  :search="searchEventos"
-                  class="elevation-21 mt-4"
-                  sort-by="ano"
-                >
-                  <template v-slot:top>
-                    <v-toolbar
-                      flat
-                    >
-                      <v-toolbar-title>Tabela de Eventos Cadastrados</v-toolbar-title>
+                </v-col>
 
-                      <v-divider
-                        class="mx-4"
-                        inset
-                        vertical
-                      ></v-divider>
+              </v-row>
 
-                      <v-spacer></v-spacer>
-
-                      <!--Pesquisar-->
-                      <v-text-field
-                        append-icon="mdi-magnify"
-                        hide-details
-                        label="Pesquisar"
-                        placeholder="Pesquisar"
-                        single-line
-                        v-model="searchEventos"
-                      ></v-text-field>
-
-                    </v-toolbar>
-
-                  </template>
-
-                  <!--Template de datas -->
-                  <template v-slot:item.ano="{ item }">
-
-                    <span v-if="item.dia"> {{ item.dia }} / </span> <span v-if="item.mes">  {{ item.mes }} / </span>
-
-                    <span v-if="item.ano">  {{ item.ano }} </span>
-
-                  </template>
-
-                  <!--Template de legendas -->
-                  <template v-slot:item.legenda="{ item }">
-
-                    <span class="text-no-wrap warning" v-if="item.legenda === '' || item.legenda === null"> ---- SEM LEGENDA ----</span>
-                    <span
-                      v-else class="text-justify">{{ item.legenda }}</span>
-
-                    <span class="text-no-wrap warning" v-if="item.saibamais === '' || item.saibamais === null"><br> ---- SEM SAIBA MAIS ----</span>
-                    <span
-                      v-else class="text-justify"><br>{{ item.saibamais }}</span>
-
-                  </template>
-
-                  <!--Template de imagens -->
-                  <template v-slot:item.imagem="{ item }">
-
-                    <span class="text-no-wrap warning" v-if="item.imagem === null"> ---- SEM IMAGEM ----</span> <span
-                    v-else><v-icon @click="showImg(item)">mdi-magnify</v-icon></span>
-
-                  </template>
-
-                  <!--Template de botões para editar, excluir -->
-                  <template v-slot:item.actions="{ item }">
-
-                    <!--editar-->
-                    <v-tooltip top>
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-icon
-                          @click="editEvento(item)"
-                          class="mr-2"
-                          small
-                          v-bind="attrs"
-                          v-on="on"
-                        >
-                          mdi-pen
-                        </v-icon>
-                      </template>
-                      <span>Editar Evento</span>
-                    </v-tooltip>
-
-                    <!--Excluir-->
-                    <v-tooltip top>
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-icon
-                          @click="deleteEvento(item)"
-                          class="mr-2"
-                          small
-                          v-bind="attrs"
-                          v-on="on"
-                        >
-                          mdi-delete
-                        </v-icon>
-                      </template>
-                      <span>Excluir evento</span>
-                    </v-tooltip>
-
-                  </template>
-
-                </v-data-table>
-
-              </v-alert>
-
-            </v-container>
+            </v-form>
 
           </v-alert>
 
-        </v-col>
+          <!-- Eventos cadastrados-->
+          <v-alert color="rgb(255,255,255,0.5)"
+                   v-if="mostraTabelaCadastrados &&totemConfigs.tipo_totem !== 'normal' ">
 
-      </v-row>
+            <v-row>
+              <v-col><h3>Eventos Cadastrados</h3></v-col>
+              <!--add evento-->
+              <v-col align-self="center" class="text-right">
+                <v-btn small @click="abreCadastroNewEvento"
+                       v-if="totemConfigs.tipo_totem !== 'normal' && !mostraCadastroEventos">Adicionar Evento
+                </v-btn>
+              </v-col>
+            </v-row>
 
-    </v-container>
+            <!--DataTable-->
+            <v-data-table
+              :headers="headersEventos"
+              :items="eventos"
+              :search="searchEventos"
+              class="elevation-21 mt-4"
+              sort-by="ano"
+            >
+              <template v-slot:top>
+                <v-toolbar
+                  flat
+                >
+                  <v-toolbar-title>Tabela de Eventos Cadastrados</v-toolbar-title>
+
+                  <v-divider
+                    class="mx-4"
+                    inset
+                    vertical
+                  ></v-divider>
+
+                  <v-spacer></v-spacer>
+
+                  <!--Pesquisar-->
+                  <v-text-field
+                    append-icon="mdi-magnify"
+                    hide-details
+                    label="Pesquisar"
+                    placeholder="Pesquisar"
+                    single-line
+                    v-model="searchEventos"
+                  ></v-text-field>
+
+                </v-toolbar>
+
+              </template>
+
+              <!--Template de datas -->
+              <template v-slot:item.ano="{ item }">
+
+                <span v-if="item.dia"> {{ item.dia }} / </span> <span v-if="item.mes">  {{ item.mes }} / </span>
+
+                <span v-if="item.ano">  {{ item.ano }} </span>
+
+              </template>
+
+              <!--Template de legendas -->
+              <template v-slot:item.legenda="{ item }">
+
+                <span class="text-no-wrap warning" v-if="item.legenda === '' || item.legenda === null"> ---- SEM LEGENDA ----</span>
+                <span
+                  v-else class="text-justify">{{ item.legenda }}</span>
+
+                <span class="text-no-wrap warning" v-if="item.saibamais === '' || item.saibamais === null"><br> ---- SEM SAIBA MAIS ----</span>
+                <span
+                  v-else class="text-justify"><br>{{ item.saibamais }}</span>
+
+              </template>
+
+              <!--Template de imagens -->
+              <template v-slot:item.imagem="{ item }">
+
+                <span class="text-no-wrap warning" v-if="item.imagem === null"> ---- SEM IMAGEM ----</span> <span
+                v-else><v-icon @click="showImg(item)">mdi-magnify</v-icon></span>
+
+              </template>
+
+              <!--Template de botões para editar, excluir -->
+              <template v-slot:item.actions="{ item }">
+
+                <!--editar-->
+                <v-tooltip top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon
+                      @click="editEvento(item)"
+                      class="mr-2"
+                      small
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      mdi-pen
+                    </v-icon>
+                  </template>
+                  <span>Editar Evento</span>
+                </v-tooltip>
+
+                <!--Excluir-->
+                <v-tooltip top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon
+                      @click="deleteEvento(item)"
+                      class="mr-2"
+                      small
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      mdi-delete
+                    </v-icon>
+                  </template>
+                  <span>Excluir evento</span>
+                </v-tooltip>
+
+              </template>
+
+            </v-data-table>
+
+          </v-alert>
+
+        </v-container>
+      </v-card-text>
+    </v-card>
 
     <!--Dialog para administrar assunto-->
     <v-dialog max-width="70%" v-model="dialogAdmAssunto">
