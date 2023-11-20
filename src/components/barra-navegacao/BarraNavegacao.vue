@@ -15,7 +15,7 @@
     <v-menu
       left
       bottom
-      v-if="!usuarioLogado"
+      v-if="!usuarioEstaLogado"
     >
       <template v-slot:activator="{ on, attrs }">
         <v-btn
@@ -29,7 +29,7 @@
       </template>
     </v-menu>
 
-    <BarraNavegacaoUsuarioLogado v-if="usuarioLogado"/>
+    <BarraNavegacaoUsuarioLogado v-if="usuarioEstaLogado"/>
 
     <!--Dialog para fazer login-->
     <v-dialog max-width="50%" v-model="dialogLogin" scrollable>
