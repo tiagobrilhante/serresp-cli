@@ -35,7 +35,7 @@
             :headers="headers"
             :items="usuarios"
             :search="search"
-            class="elevation-21 mt-4"
+            class="elevation-12 mt-4"
             sort-by="nome"
           >
             <template v-slot:top>

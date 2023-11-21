@@ -17,6 +17,7 @@
       <v-btn to="/home" class="mt-3" color="secondary" block max-width="100%"> Página Inicial</v-btn>
       <v-btn to="/configs" class="mt-3" color="secondary" block max-width="100%"> Configurações</v-btn>
       <v-btn to="/admusers" class="mt-3" color="secondary" block max-width="100%"> Adm Usuários</v-btn>
+      <v-btn to="/tipoeventos" class="mt-3" color="secondary" block max-width="100%"> Adm Tipo Evento</v-btn>
 
     </v-col>
   </v-row>
