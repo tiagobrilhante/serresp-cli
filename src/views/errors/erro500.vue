@@ -2,22 +2,7 @@
   <v-main>
 
     <!--App Bar Config Area-->
-    <v-app-bar
-      app
-      color="#6b5252"
-    >
 
-      <v-toolbar-title>{{configSis.nomeSis}}
-        <v-chip class="ml-4" small> {{configSis.labelSis}}</v-chip>
-      </v-toolbar-title>
-
-      <v-spacer></v-spacer>
-
-      <v-btn @click="retornaHome()">Voltar</v-btn>
-      <v-btn @click="retornaTotem()" class="ml-3">Sair</v-btn>
-
-    </v-app-bar>
-    <br><br>
     <v-row>
 
       <v-col cols="6" offset="3">
@@ -39,31 +24,3 @@
     </v-row>
   </v-main>
 </template>
-
-<script>import {logoutMixin} from '@/mixins'
-import {mapGetters} from 'vuex'
-import config from '../../http/config'
-
-export default {
-  name: 'home',
-  mixins: [logoutMixin],
-  components: {},
-  data: vm => ({
-    configSis: config
-  }),
-  mounted () {},
-  methods: {
-    retornaTotem () {
-      this.$store.commit('DESLOGAR_USUARIO')
-      this.$router.push({name: 'index'})
-    },
-    retornaHome () {
-      this.$router.push({name: 'home'})
-    }
-  },
-  computed: {
-    ...mapGetters(['usuarioLogado'])
-  }
-}
-
-</script>
