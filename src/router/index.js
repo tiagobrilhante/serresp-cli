@@ -5,7 +5,7 @@ import Index from '../views/Index.vue'
 import erro500 from '../views/errors/erro500.vue'
 import erroToken from '../views/errors/erroToken.vue'
 import Eventos from '../components/index/Eventos.vue'
-import Assuntos from '../components/index/Assuntos.vue'
+import Destaques from '../components/index/Destaques.vue'
 import AdmUsers from '../components/areaAdministrativa/admUsuarios/AdmUsuarios.vue'
 import TipoEventos from '../components/areaAdministrativa/admEventos/TipoEvento.vue'
 import Configs from '../components/areaAdministrativa/configuracoes/Configuracoes.vue'
@@ -32,9 +32,9 @@ const routes = [
     }
   },
   {
-    path: '/assuntos',
-    name: 'assuntos',
-    component: Assuntos,
+    path: '/destaques',
+    name: 'destaques',
+    component: Destaques,
     meta: {
       publica: true
     }

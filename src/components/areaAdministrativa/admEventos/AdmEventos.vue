@@ -72,6 +72,20 @@
 
                 </template>
 
+                <!--Template de tipo de evento -->
+                <template v-slot:item.tipo_evento_id="{ item }">
+
+                  <span>{{ item.tipo_evento.tipo }}</span>
+
+                </template>
+
+                <!--Template de destaque -->
+                <template v-slot:item.destaque="{ item }">
+
+                  <span v-if="item.destaque === 1"><v-icon>mdi-star</v-icon> <br> {{item.ordem_exibicao}}</span>
+
+                </template>
+
                 <!--Template de datas -->
                 <template v-slot:item.ano="{ item }">
 
@@ -144,12 +158,23 @@
     </v-card>
 
     <!--Dialog para mostrar a imagem de um evento-->
-    <v-dialog max-width="70%" v-model="dialogShowImagemEvento">
+    <v-dialog max-width="70%" v-model="dialogShowImagemEvento" scrollable>
       <v-card>
         <v-card-title>
           Visualização de Imagem
         </v-card-title>
         <v-card-text>
+
+          <v-row class="mb-3">
+            <v-col>
+              <v-btn @click="ajustaImagemNavegacao(imgEventoShow, 'principal')">Imagem Principal</v-btn>
+
+              <v-btn @click="ajustaImagemNavegacao(imgAdc, 'adicional')" :key="imgAdc.id"
+                     v-for="(imgAdc, index) in selectedEvento.imagens_adicionais">Imagem Adicional {{ index + 1 }}
+              </v-btn>
+            </v-col>
+          </v-row>
+
           <v-img :src="this.$configSis.urlDownload + imgEventoShow"
                  class="rounded-xl v-responsive ml-auto mr-auto"/>
 
@@ -159,6 +184,15 @@
             <span v-if="imgEventoFonteShow === null || imgEventoFonteShow === ''"> Sem Fonte</span>
 
           </v-alert>
+          <v-alert color="green lighten-2" class="mt-2"
+                   v-if="selectedEvento.imagens_adicionais.length > 0 && imgEventoShow !== selectedEvento.imagem">
+
+            <span v-if="imgAdicionalLegendaEventoShow !== null || imgAdicionalLegendaEventoShow !== ''">{{
+                imgAdicionalLegendaEventoShow
+              }}</span>
+
+          </v-alert>
+
         </v-card-text>
         <v-card-actions class="pb-5">
           <v-spacer></v-spacer>
@@ -981,7 +1015,7 @@ export default {
       },
       {
         text: 'Tipo',
-        align: 'start',
+        align: 'center',
         value: 'tipo_evento_id'
       },
       {
@@ -992,6 +1026,12 @@ export default {
       {
         text: 'Legenda',
         value: 'legenda'
+      },
+      {
+        text: 'Destaque',
+        value: 'destaque',
+        align: 'center',
+        sortable: true
       },
       {
         text: 'Imagem',
@@ -1010,7 +1050,9 @@ export default {
     dialogShowImagemEvento: false,
     imgEventoFonteShow: '',
     imgEventoShow: undefined,
-    selectedEvento: {},
+    selectedEvento: {
+      imagens_adicionais: []
+    },
     dialogDeleteEvento: false,
     dialogCadastraEvento: false,
     objetoEventoNewImgAdicional: [],
@@ -1043,7 +1085,8 @@ export default {
     dialogEditaEvento: false,
     dialogAddImagemAdicionalEvento: false,
     dialogDeleteImagemAdicionalEvento: false,
-    imagemAdicionalParaDeletar: {}
+    imagemAdicionalParaDeletar: {},
+    imgAdicionalLegendaEventoShow: ''
   }),
   computed: {
     ...mapGetters(['usuarioResetado', 'usuarioLogado'])
@@ -1077,6 +1120,7 @@ export default {
     showImg (imagem) {
       this.imgEventoShow = ''
       this.imgEventoFonteShow = ''
+      this.selectedEvento = imagem
       this.dialogShowImagemEvento = true
       this.imgEventoShow = imagem.imagem
       this.imgEventoFonteShow = imagem.fonteimagempcp
@@ -1356,6 +1400,18 @@ export default {
             'Não foi possível remover a Imagem', 'Erro!'
           )
         })
+    },
+
+    ajustaImagemNavegacao (item, tipo) {
+      if (tipo === 'principal') {
+        this.imgEventoShow = this.selectedEvento.imagem
+        this.imgEventoFonteShow = this.selectedEvento.fonteimagempcp
+        this.imgAdicionalLegendaEventoShow = ''
+      } else {
+        this.imgEventoShow = item.imagem
+        this.imgEventoFonteShow = item.fonte
+        this.imgAdicionalLegendaEventoShow = item.descricao
+      }
     }
   }
 }

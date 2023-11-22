@@ -15,7 +15,7 @@
           </v-row>
         </v-container>
 
-        <v-container fluid v-if="!usuarioLogado">
+        <v-container fluid v-if="!usuarioEstaLogado">
           <v-row class="mr-1 ml-1">
             <v-col>
               <v-card elevation="12">
@@ -66,6 +66,7 @@
 import BarraNavegacao from './components/barra-navegacao/BarraNavegacao.vue'
 import MenuLeft from './components/menu-left/Menu.vue'
 import {mapGetters} from 'vuex'
+import {logoutMixin} from '@/mixins'
 
 export default {
   components: {
@@ -73,6 +74,7 @@ export default {
     MenuLeft,
     Footer
   },
+  mixins: [logoutMixin],
   data () {
     return {
       totemConfigs: {}
@@ -82,7 +84,7 @@ export default {
     this.getConfigs() // Chama getConfigs quando o componente é criado
   },
   computed: {
-    ...mapGetters(['usuarioResetado', 'usuarioLogado'])
+    ...mapGetters(['usuarioResetado', 'usuarioLogado', 'usuarioEstaLogado'])
   },
   methods: {
     getConfigs () {

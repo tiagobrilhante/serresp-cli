@@ -8,7 +8,7 @@
       <v-divider class="mb-4"></v-divider>
       <v-btn to="/" color="secondary" block max-width="100%"> Página Incial</v-btn>
       <v-btn class="mt-3" color="secondary" block max-width="100%"> O que é SerResponsável</v-btn>
-      <v-btn to="/assuntos" class="mt-3" color="secondary" block max-width="100%"> Atividades Recentes</v-btn>
+      <v-btn to="/destaques" class="mt-3" color="secondary" block max-width="100%"> Em destaque </v-btn>
       <v-btn to="/eventos" class="mt-3" color="secondary" block max-width="100%"> Ao longo dos anos</v-btn>
       <v-btn class="mt-3" color="secondary" block max-width="100%"> Benefícios do Projeto</v-btn>
 

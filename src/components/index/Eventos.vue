@@ -23,7 +23,8 @@
           <v-row>
             <!--espaçador + btn voltar-->
             <v-col align-self="center" class="text-center" cols="1">
-              <v-btn rounded color="secondary" @click="changeEventPage(pagAtualEvento - 1)" :disabled="!(pagAtualEvento > 1)">
+              <v-btn rounded color="secondary" @click="changeEventPage(pagAtualEvento - 1)"
+                     :disabled="!(pagAtualEvento > 1)">
                 <v-icon>mdi-arrow-left</v-icon>
               </v-btn>
             </v-col>
@@ -48,8 +49,8 @@
                       :height=configBasica.altura_index
                       :max-height=configBasica.altura_index
                       :max-width=configBasica.largura_index
-                           :src="configSis.urlDownload + le1.imagem"
-                           class="v-responsive rounded-xl text-center ml-auto mr-auto pl-3 pr-3"/>
+                      :src="configSis.urlDownload + le1.imagem"
+                      class="v-responsive rounded-xl text-center ml-auto mr-auto pl-3 pr-3"/>
 
                     <v-row>
 
@@ -81,8 +82,8 @@
                       :height=configBasica.altura_index
                       :max-height=configBasica.altura_index
                       :max-width=configBasica.largura_index
-                           :src="configSis.urlDownload + le2.imagem"
-                           class="rounded-xl text-center ml-auto mr-auto"/>
+                      :src="configSis.urlDownload + le2.imagem"
+                      class="rounded-xl text-center ml-auto mr-auto"/>
 
                     <v-row>
 
@@ -111,6 +112,8 @@
     <!--Dialog para navegar pelo evento-->
     <v-dialog max-width="90%" v-model="dialogNavegaAno" scrollable>
       <v-card @contextmenu.prevent="disableRightClick" color="#a8b7f0">
+
+        <!--title card-->
         <v-card-title class="justify-center" primary-title>
           <v-row>
             <v-col cols="1"></v-col>
@@ -120,9 +123,11 @@
             </v-col>
           </v-row>
         </v-card-title>
+
         <v-card-text>
           <hr>
 
+          <!-- botoes de navegação entre eventos-->
           <v-row class="mt-1"
                  v-if="Object.keys(selectedAnoEvento).length !== 0 && selectedAnoEvento.eventos.length > 1">
             <v-col>
@@ -135,10 +140,12 @@
           </v-row>
 
           <v-row class="mt-2" justify="center">
+
             <!-- espaço para a imagem-->
             <v-col align-self="center" class="text-center"
                    v-if="eventoVisivel.imagem !== 'null' && eventoVisivel.imagem !== null ">
 
+              <!-- botões de navegação entre imagens de um evento-->
               <v-row class="mb-4">
                 <v-col class="text-left">
                   <v-btn class="mx-2" v-if="!soTemUmaImagem"
@@ -159,11 +166,12 @@
                        color="rgb(0,0,0,0)" class="mt-2">fonte: {{ eventoVisivel.fonteimagempcp }}
               </v-alert>
 
-              <v-alert v-if="!essaEImgEventoPcp">
+              <v-alert class="mt-3" v-if="!essaEImgEventoPcp">
                 <h3>{{ explicacaoImgAddEvevntox }}</h3>
               </v-alert>
 
-              <v-row class="mb-4">
+              <!--botoes de navegação entre imagens-->
+              <v-row class="mt-2">
                 <v-col class="text-left">
                   <v-btn class="mx-2" v-if="!soTemUmaImagem"
                          @click="mostraImagemAdicional(eventoVisivel,'default')">1
@@ -207,9 +215,7 @@
                     <v-row class="mb-1" v-if="!saibaMaisAreaVisibility">
                       <v-col :class=tamanhoTexto>
 
-                        <strong>
-                          {{ eventoVisivel.legenda }}
-                        </strong>
+                        <span v-html="eventoVisivel.legenda" class="text-justify"/>
 
                       </v-col>
                     </v-row>
@@ -217,9 +223,9 @@
                     <!-- texto do saiba mais -->
                     <v-row v-if="saibaMaisAreaVisibility">
                       <v-col class="text-justify">
-                          <span :class="tamanhoTexto">
-                            {{ eventoVisivel.saibamais }}
-                          </span>
+
+                        <span :class="tamanhoTexto" v-html="eventoVisivel.saibamais" class="text-justify"/>
+
                       </v-col>
                     </v-row>
 
@@ -307,9 +313,6 @@ export default {
       try {
         this.$http.get('evento/principal')
           .then(response => {
-            console.log('estou aqui')
-            console.log(this.configBasica)
-            console.log('passei aqui')
             this.eventos = response.data[0]
             this.pagAtualEvento = response.data[1]
             this.temProxPag = response.data[2]
