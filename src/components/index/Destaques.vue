@@ -125,15 +125,24 @@
 
       </v-col>
     </v-row>
+
+    <!--Dialog para navegar pelo evento-->
+    <v-dialog max-width="90%" v-model="dialogNavegaDestaque" scrollable>
+
+      <MostraEvento  @ajustarVisibilidade="dialogNavegaDestaque = $event" :eventoVisivell = "eventoVisivel" :configBasica = configBasica />
+
+    </v-dialog>
+
   </v-container>
 
 </template>
 
 <script>import config from '../../http/config'
+import MostraEvento from './MostraEvento'
 
 export default {
 
-  components: {},
+  components: {MostraEvento},
   data () {
     return {
       configSis: config,
@@ -146,7 +155,9 @@ export default {
       temProxPag: false,
       qtdDestaque: 0,
       countUndefinedDestaques1: 0,
-      countUndefinedDestaques2: 0
+      countUndefinedDestaques2: 0,
+      eventoVisivel: {},
+      dialogNavegaDestaque: false
     }
   },
 
@@ -225,8 +236,12 @@ export default {
     changeDestaquePage (pagina) {
       this.pagAtualDestaques = pagina
       this.getDestaques()
-    }
+    },
 
+    openAnoEventoLista (item) {
+      this.eventoVisivel = item
+      this.dialogNavegaDestaque = true
+    }
   }
 }
 </script>

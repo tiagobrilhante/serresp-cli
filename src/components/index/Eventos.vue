@@ -111,7 +111,8 @@
 
     <!--Dialog para navegar pelo evento-->
     <v-dialog max-width="90%" v-model="dialogNavegaAno" scrollable>
-      <v-card @contextmenu.prevent="disableRightClick" color="#a8b7f0">
+
+      <v-card color="#a8b7f0">
 
         <!--title card-->
         <v-card-title class="justify-center" primary-title>
@@ -260,6 +261,7 @@
 import config from '../../http/config'
 
 export default {
+  components: {},
   data () {
     return {
       configSis: config,
@@ -467,10 +469,6 @@ export default {
       } else {
         return 'Dezembro'
       }
-    },
-
-    refreshPage () {
-      location.reload()
     },
 
     aumentaDimunuiFonte () {
