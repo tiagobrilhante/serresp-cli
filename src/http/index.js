@@ -38,7 +38,10 @@ http.interceptors.response.use(
           router.push({name: '/'})
         }, 3000)
       } else {
-        router.push({name: 'erro500'})
+        router.push({
+          name: 'erro500',
+          params: { error: error.response.data.message }
+        })
       }
     }
     return Promise.reject(error)

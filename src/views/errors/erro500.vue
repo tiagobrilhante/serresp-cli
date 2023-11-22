@@ -18,9 +18,23 @@
           <p>Muito provavelmente isso ocorreu por uma falha no servidor.</p>
           <p>Reporte o Bug para a equipe de desenvolvimento.</p>
 
+          <p>Erro: {{ mensagemErro }}</p>
+
         </v-alert>
 
       </v-col>
     </v-row>
   </v-main>
 </template>
+<script>
+export default {
+  name: 'erro500',
+  data: () => ({
+    mensagemErro: ''
+  }),
+  mounted () {
+    const error = this.$route.params.error
+    this.mensagemErro = error
+  }
+}
+</script>
